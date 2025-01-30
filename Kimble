@@ -1,0 +1,72 @@
+#PELIN UPGRADE IDEOITA, mikäli on aikaa ja taitoa edistää näitä asioita:
+#enemmän pelaajia, isompi alusta, enemmän nappuloita
+#pelataan KAHDELLA koneella (sama netti) -> Vuoro koostuu omilla koneilla tehtävistä siirroista, jotka tapahtuu pelialustalla vuoron jälkeen samaan aikaan
+
+#OHJEITA: Pelataan kind-of-kimbleä, 2 pelaajaa ja kummallakin 2 nappulaa
+#Alotetaan peli kysymällä pelaajat ja arpomalla aloittaja
+print("Tervetuloa pelaamaan!")
+
+p1=input("Anna ensimmäisen pelaajan nimi: ")
+print("Pelaat hahmoilla A ja a")
+p2=input("Anna toisen pelaajan nimi: ")
+print("Pelaat hahmoilla B ja b")
+
+print("Arvotaan aloittava pelaaja..")
+
+from random import randrange
+alottaja=randrange(1,3)
+if alottaja == 1:
+    print(f"Pelaaja {p1} aloittaa!")
+else:
+    print(f"Pelaaja {p2} aloittaa!")
+
+#Pelialusta on erillisellä nettisivulla, jossa näkyy aina viimeisimmän pelisiirron jälkeinen tilanne
+#Pelialusta - ympyrä - on tallennettuna 6 x 6 matriisina 
+
+peli=["A","a","O","O","O","O","B","b","O","O","O","O"] #ALKUtilanne
+
+koko=[[" ", " ", peli[0], peli[1], " ", " "],[" ", peli[11], " ", " ", peli[2], " "],[peli[10], " ", " ", " ", " ", peli[3]],[peli[9], " ", " ", " ", " ", peli[4]],[" ", peli[8], " ", " ", peli[5], " "],[" ", " ", peli[7], peli[6], " ", " "]]
+
+for rivi in koko:
+    print(*rivi)
+
+#Vuoron alussa päätetään:
+    # a) Kumpaa nappulaa liikutetaan
+    # b) Myötä- vai vastapäivään
+    # c) Heitetään noppaa (1-6 tai 1-4, ei päätetty vielä)
+
+nap=input("Mitä nappulaa siirretään?")
+suunta=input("Myötä- vai vastapäivään? (M/V)")
+if suunta != "M" and suunta!= "V":
+    print("Vastaa M tai V!")
+    suunta=input("Myötä- vai vastapäivään? (M/V)")
+
+from random import randrange
+siirto=randrange(1,7)
+print("Nopasta sait..")
+print(siirto)
+
+if suunta == "V":
+    siirto=-siirto
+
+#NAPPULOIDEN SIJAINNEISTA: Nappulat tallennetaan pelialustaan aina "O" tilalle esim a1, a2 ja b1, b2
+    #Vuoron alussa ohjelma hakee, löytyykö alustalta a1 ja a2; jos kumpiki löytyy, kysytään kumpaa liikutetaan
+        #Jos vaan toinen löytyy, kysytään suoraan kumpaan suuntaan liikutetaan 
+        #Jos kumpaakaan ei löydy, ilmoitetaan pelaaja a hävinneeksi ja b voittaneeksi
+    #Kun noppaa heitetty, katsotaan uudesta sijainnista mitä siinä valmiiksi on
+        #Jos "O" liikutetaan eikä muuta tapahdu
+        #Jos joku muu nappula, liikkuu ja kertoo, että "söit toisen nappulan"
+
+nyky=peli.index(nap)
+peli[nyky]="O"
+peli[nyky+siirto]=nap
+
+koko=[[" ", " ", peli[0], peli[1], " ", " "],[" ", peli[11], " ", " ", peli[2], " "],[peli[10], " ", " ", " ", " ", peli[3]],[peli[9], " ", " ", " ", " ", peli[4]],[" ", peli[8], " ", " ", peli[5], " "],[" ", " ", peli[7], peli[6], " ", " "]]
+
+for rivi in koko:
+    print(*rivi)
+
+#Nyt toimii siihen asti, että nappulat liikkuvat
+
+#Muuten toimii, mutta ongelma tällä hetkellä:
+#Alustalla ei pääse ympäri. Pitäis saada vikasta ruudusta liikkumaan ekaan ruutuun
