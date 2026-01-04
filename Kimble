@@ -66,7 +66,5 @@ koko=[[" ", " ", peli[0], peli[1], " ", " "],[" ", peli[11], " ", " ", peli[2], 
 for rivi in koko:
     print(*rivi)
 
-#Nyt toimii siihen asti, että nappulat liikkuvat
 
-#Muuten toimii, mutta ongelma tällä hetkellä:
-#Alustalla ei pääse ympäri. Pitäis saada vikasta ruudusta liikkumaan ekaan ruutuun
+
